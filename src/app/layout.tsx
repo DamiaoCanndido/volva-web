@@ -6,8 +6,8 @@ import { NextAuthProvider } from './providers/provider';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Volva',
-  description: 'Volva',
+  title: 'VolVɅ',
+  description: 'VolVɅ',
 };
 
 export default function RootLayout({
