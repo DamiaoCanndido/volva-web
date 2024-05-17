@@ -1,5 +1,6 @@
 'use client';
 import { useSession, signIn, signOut } from 'next-auth/react';
+import { FcGoogle } from 'react-icons/fc';
 
 export default function Component() {
   const { data: session } = useSession();
@@ -7,7 +8,7 @@ export default function Component() {
   if (session) {
     return (
       <>
-        Signed in as {session.accessToken} <br />
+        {session.user?.name} <br />
         <button onClick={() => signOut()}>Sign out</button>
       </>
     );
@@ -15,7 +16,15 @@ export default function Component() {
   return (
     <>
       Not signed in <br />
-      <button onClick={() => signIn()}>Sign in</button>
+      <button
+        className="flex h-10 w-48 items-center rounded shadow-md"
+        onClick={() => signIn('google')}
+      >
+        <div className="mx-1">
+          <FcGoogle size={30} />
+        </div>
+        <p className="text-sm">Login com o google</p>
+      </button>
     </>
   );
 }
