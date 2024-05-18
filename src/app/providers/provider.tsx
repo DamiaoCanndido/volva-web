@@ -1,4 +1,4 @@
-import { NextAuthProvider } from '@/app/providers/next-auth';
+import { GoogleProvider } from '@/app/providers/google-provider';
 import { AuthContextProvider } from '@/app/providers/auth';
 
 export default function Provider({
@@ -7,8 +7,8 @@ export default function Provider({
   children: React.ReactNode;
 }>) {
   return (
-    <NextAuthProvider>
+    <GoogleProvider>
       <AuthContextProvider>{children}</AuthContextProvider>
-    </NextAuthProvider>
+    </GoogleProvider>
   );
 }
