@@ -1,5 +1,6 @@
 import { GoogleProvider } from '@/app/providers/google-provider';
 import { AuthContextProvider } from '@/app/providers/auth';
+import { SideBarContextProvider } from './siderbar';
 
 export default function Provider({
   children,
@@ -8,7 +9,9 @@ export default function Provider({
 }>) {
   return (
     <GoogleProvider>
-      <AuthContextProvider>{children}</AuthContextProvider>
+      <SideBarContextProvider>
+        <AuthContextProvider>{children}</AuthContextProvider>
+      </SideBarContextProvider>
     </GoogleProvider>
   );
 }

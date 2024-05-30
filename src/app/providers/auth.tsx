@@ -19,7 +19,7 @@ interface ContextProps {
 }
 
 const AuthContext = createContext<ContextProps>({
-  token: '',
+  token: undefined,
   setToken: (): string => '',
 });
 
