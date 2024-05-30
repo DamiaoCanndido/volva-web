@@ -29,14 +29,6 @@ export const Header = () => {
       <h1 className="max-lg:hidden text-2xl font-bold text-center mb-4 text-white">
         PROJECT ᚡ
       </h1>
-
-      <Image
-        className="rounded-full"
-        src="https://seeklogo.com/images/M/music-icon-logo-BF5C45430A-seeklogo.com.png"
-        alt="@shadcn"
-        width={50}
-        height={50}
-      />
     </nav>
   );
 };

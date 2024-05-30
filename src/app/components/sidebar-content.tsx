@@ -45,68 +45,52 @@ export const SideBarContent = ({ visible, ...props }: IconButtonProps) => {
       >
         <div className="h-full overflow-y-auto">
           <Link
-            href="/decree"
+            href="/my-pools"
             replace
             className={
-              sideBarTab === 'decree'
+              sideBarTab === 'my-pools'
                 ? 'flex cursor-pointer border-b border-grey-200 pr-8 py-2 hover:bg-green-100 items-center bg-green-300'
                 : 'flex cursor-pointer border-b border-grey-200 pr-8 py-2 hover:bg-green-100 items-center'
             }
             onClick={() => {
               setShowSideBar(false);
-              setSideBarTab('decree');
+              setSideBarTab('my-pools');
             }}
           >
             <LuBookMarked size={30} />
-            <span className="px-1 text-sm">Decretos</span>
+            <span className="px-1 text-sm">Meus bolões</span>
           </Link>
           <Link
-            href="/notice"
+            href="/pools"
             replace
             className={
-              sideBarTab === 'notice'
+              sideBarTab === 'pools'
                 ? 'flex cursor-pointer border-b border-grey-200 pr-8 py-2 hover:bg-green-100 items-center bg-green-300'
                 : 'flex cursor-pointer border-b border-grey-200 pr-8 py-2 hover:bg-green-100 items-center'
             }
             onClick={() => {
               setShowSideBar(false);
-              setSideBarTab('notice');
+              setSideBarTab('pools');
             }}
           >
             <LuBookMarked size={30} />
-            <span className="px-1 text-sm">Ofícios</span>
+            <span className="px-1 text-sm">Bolões públicos</span>
           </Link>
           <Link
-            href="/law"
+            href="/create-pool"
             replace
             className={
-              sideBarTab === 'law'
+              sideBarTab === 'create-pool'
                 ? 'flex cursor-pointer border-b border-grey-200 pr-8 py-2 hover:bg-green-100 items-center bg-green-300'
                 : 'flex cursor-pointer border-b border-grey-200 pr-8 py-2 hover:bg-green-100 items-center'
             }
             onClick={() => {
               setShowSideBar(false);
-              setSideBarTab('law');
+              setSideBarTab('create-pool');
             }}
           >
             <LuBookMarked size={30} />
-            <span className="px-1 text-sm">Leis</span>
-          </Link>
-          <Link
-            href="/ordinance"
-            replace
-            className={
-              sideBarTab === 'ordinance'
-                ? 'flex cursor-pointer border-b border-grey-200 pr-8 py-2 hover:bg-green-100 items-center bg-green-300'
-                : 'flex cursor-pointer border-b border-grey-200 pr-8 py-2 hover:bg-green-100 items-center'
-            }
-            onClick={() => {
-              setShowSideBar(false);
-              setSideBarTab('ordinance');
-            }}
-          >
-            <LuBookMarked size={30} />
-            <span className="px-1 text-sm">Portarias</span>
+            <span className="px-1 text-sm">Criar bolão</span>
           </Link>
           <Link
             href="/"

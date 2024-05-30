@@ -19,7 +19,7 @@ export default function Page() {
         });
         if (response.data.user.sub) {
           setToken(response.data.user.avatarUrl);
-          router.replace('/pool');
+          router.replace('/create-pool');
         }
       } catch (error) {
         console.log(error);
@@ -34,7 +34,7 @@ export default function Page() {
           access_token: tokenResponse.access_token,
         });
         setCookie('token', response.data.token);
-        router.replace('/pool');
+        router.replace('/create-pool');
       } catch (error) {
         console.log(error);
       }
