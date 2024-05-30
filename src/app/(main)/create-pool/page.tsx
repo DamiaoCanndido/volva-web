@@ -27,11 +27,11 @@ const formSchema = z.object({
     .min(6, { message: 'Nome deve conter no mínimo 6 caracteres.' })
     .max(50, { message: 'O Nome não pode exceder 50 caracteres.' }),
   mode: z.enum(['normal', 'custom'], { message: 'Modo não compatível.' }),
-  nGames: z
-    .string()
+  nGames: z.coerce
+    .number()
     .min(1, { message: 'Número muito pequeno.' })
     .max(16, { message: 'Número muito grande.' }),
-  leagueId: z.optional(z.string()),
+  leagueId: z.optional(z.coerce.number()),
 });
 
 export default function Page() {
@@ -40,7 +40,7 @@ export default function Page() {
     defaultValues: {
       name: '',
       mode: 'normal',
-      nGames: '1',
+      nGames: 1,
       leagueId: undefined,
     },
   });

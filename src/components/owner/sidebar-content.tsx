@@ -2,7 +2,7 @@
 import { LuLogOut, LuBookMarked, LuUser2 } from 'react-icons/lu';
 import Link from 'next/link';
 import { ComponentProps, useEffect, useRef, useState } from 'react';
-import { SideBarContextGlobal } from '@/app/providers/siderbar';
+import { SideBarContextGlobal } from '@/providers/siderbar';
 import { deleteCookie } from 'cookies-next';
 
 interface IconButtonProps extends ComponentProps<'aside'> {

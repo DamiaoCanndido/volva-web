@@ -1,5 +1,5 @@
 'use client';
-import { SideBarContextGlobal } from '@/app/providers/siderbar';
+import { SideBarContextGlobal } from '@/providers/siderbar';
 import { SideBarContent } from './sidebar-content';
 
 export const SideBar = () => {

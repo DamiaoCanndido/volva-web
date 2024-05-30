@@ -1,5 +1,5 @@
 'use client';
-import { SideBarContextGlobal } from '@/app/providers/siderbar';
+import { SideBarContextGlobal } from '@/providers/siderbar';
 import Image from 'next/image';
 import { useEffect } from 'react';
 import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';

@@ -1,10 +1,10 @@
 'use client';
 import { FcGoogle } from 'react-icons/fc';
-import { AuthContextGlobal } from '@/app/providers/auth';
+import { AuthContextGlobal } from '@/providers/auth';
 import { useEffect } from 'react';
 import { getCookie, setCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
-import { api } from './lib/axios';
+import { api } from '../lib/axios';
 import { useGoogleLogin } from '@react-oauth/google';
 
 export default function Page() {
