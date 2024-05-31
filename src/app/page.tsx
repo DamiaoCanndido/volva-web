@@ -19,7 +19,7 @@ export default function Page() {
         });
         if (response.data.user.sub) {
           setToken(response.data.user.avatarUrl);
-          router.replace('/create-pool');
+          router.replace('/my-pools');
         }
       } catch (error) {
         console.log(error);
