@@ -2,10 +2,10 @@
 import { FcGoogle } from 'react-icons/fc';
 import { AuthContextGlobal } from '@/providers/auth';
 import { useEffect } from 'react';
-import { getCookie, setCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 import { api } from '../lib/axios';
 import { useGoogleLogin } from '@react-oauth/google';
+import { createCookies } from '@/helpers/cookies';
 
 export default function Page() {
   const router = useRouter();
@@ -33,7 +33,8 @@ export default function Page() {
         const response = await api.post('/users', {
           access_token: tokenResponse.access_token,
         });
-        setCookie('token', response.data.token);
+        createCookies('token', response.data.token);
+
         router.replace('/create-pool');
       } catch (error) {
         console.log(error);

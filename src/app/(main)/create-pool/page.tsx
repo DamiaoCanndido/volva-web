@@ -19,6 +19,9 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { League } from '@/entities/league';
 
 const formSchema = z.object({
   name: z
@@ -35,6 +38,19 @@ const formSchema = z.object({
 });
 
 export default function Page() {
+  const [league, setLeague] = useState<League[]>([]);
+
+  useEffect(() => {
+    const leagues = async () => {
+      const result = await axios({
+        method: 'GET',
+        url: `${String(process.env.NEXT_PUBLIC_FOOT_API_URL)}/league`,
+      });
+      setLeague(result.data);
+    };
+    leagues();
+  }, []);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -123,20 +139,26 @@ export default function Page() {
                   </FormControl>
                   <SelectContent>
                     <SelectItem value="0">SEM LIGA</SelectItem>
-                    <SelectItem value="1">LA LIGA</SelectItem>
-                    <SelectItem value="2">PREMIER</SelectItem>
-                    <SelectItem value="3">BUNDESLIGA</SelectItem>
+                    {league.map((e) => {
+                      return (
+                        <SelectItem key={e.id} value={String(e.id)}>
+                          {e.name}
+                        </SelectItem>
+                      );
+                    })}
                   </SelectContent>
                 </Select>
               </FormItem>
             )}
           />
-          <Button
-            className="flex w-full justify-center rounded-md bg-green-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            type="submit"
-          >
-            Entrar
-          </Button>
+          <div className="flex w-full h-auto justify-end items-end">
+            <Button
+              className="flex w-48 justify-center rounded-md bg-green-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              type="submit"
+            >
+              CRIAR
+            </Button>
+          </div>
         </form>
       </Form>
     </div>
