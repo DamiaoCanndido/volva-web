@@ -22,6 +22,9 @@ import { Button } from '@/components/ui/button';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { League } from '@/entities/league';
+import { useToast } from '@/components/ui/use-toast';
+import { ToastAction } from '@/components/ui/toast';
+import { getCookie } from 'cookies-next';
 
 const formSchema = z.object({
   name: z
@@ -30,6 +33,7 @@ const formSchema = z.object({
     .min(6, { message: 'Nome deve conter no mínimo 6 caracteres.' })
     .max(50, { message: 'O Nome não pode exceder 50 caracteres.' }),
   mode: z.enum(['normal', 'custom'], { message: 'Modo não compatível.' }),
+  scoring: z.optional(z.enum(['oneZero'])),
   nGames: z.coerce
     .number()
     .min(1, { message: 'Número muito pequeno.' })
@@ -39,6 +43,7 @@ const formSchema = z.object({
 
 export default function Page() {
   const [league, setLeague] = useState<League[]>([]);
+  const { toast } = useToast();
 
   useEffect(() => {
     const leagues = async () => {
@@ -56,6 +61,7 @@ export default function Page() {
     defaultValues: {
       name: '',
       mode: 'normal',
+      scoring: 'oneZero',
       nGames: 1,
       leagueId: undefined,
     },
@@ -64,14 +70,58 @@ export default function Page() {
   async function onSubmit({
     name,
     mode,
+    scoring,
     nGames,
     leagueId,
   }: z.infer<typeof formSchema>) {
-    console.log(name, mode, nGames, leagueId);
+    const token = getCookie('token');
+    try {
+      const result = await axios({
+        method: 'POST',
+        url: `${String(process.env.NEXT_PUBLIC_API_URL)}/pools`,
+        headers: { Authorization: `Bearer ${token}` },
+        data: {
+          name,
+          mode,
+          scoring,
+          nGames: Math.floor(nGames),
+          leagueId,
+        },
+      });
+      toast({
+        title:
+          mode === 'custom'
+            ? `${result.data.code}`
+            : 'Bolão criado com sucesso.',
+        style: {
+          backgroundColor: 'green',
+          borderColor: 'white',
+        },
+        variant: 'default',
+        action: (
+          <ToastAction
+            color="white"
+            onClick={() => {
+              navigator.clipboard.writeText(result.data.code);
+            }}
+            altText="fechar"
+          >
+            {mode === 'custom' ? <p>Copiar</p> : <p>Fechar</p>}
+          </ToastAction>
+        ),
+      });
+      form.resetField('name');
+    } catch (error) {
+      toast({
+        title: 'Erro na criação do bolão.',
+        variant: 'destructive',
+        action: <ToastAction altText="fechar">fechar</ToastAction>,
+      });
+    }
   }
 
   return (
-    <div className="flex flex-col w-[600px] h-[600px] p-2 border rounded-lg mx-auto max-lg:ml-auto border-green-600 mt-[72px]">
+    <main className="flex flex-col w-[600px] h-[600px] p-2 border rounded-lg mx-auto max-lg:ml-auto border-green-600 mt-[72px]">
       <h1 className="font-bold">Crie seu bolão.</h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -161,6 +211,6 @@ export default function Page() {
           </div>
         </form>
       </Form>
-    </div>
+    </main>
   );
 }
