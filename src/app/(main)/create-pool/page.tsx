@@ -24,7 +24,6 @@ import axios from 'axios';
 import { League } from '@/entities/league';
 import { useToast } from '@/components/ui/use-toast';
 import { ToastAction } from '@/components/ui/toast';
-import { getCookie } from 'cookies-next';
 import { AuthContextGlobal } from '@/providers/auth';
 
 const formSchema = z.object({
