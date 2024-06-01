@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/form';
 import { Pool } from '@/entities/pool';
 import axios, { AxiosError } from 'axios';
-import { deleteCookie, getCookie } from 'cookies-next';
+import { deleteCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -20,13 +20,14 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import { ToastAction } from '@/components/ui/toast';
+import { AuthContextGlobal } from '@/providers/auth';
 
 const formSchema = z.object({
   code: z.string().min(10, { message: 'Código errado.' }),
 });
 
 export default function Page() {
-  const token = getCookie('token');
+  const { token, setToken } = AuthContextGlobal();
   const router = useRouter();
   const { toast } = useToast();
 
@@ -78,7 +79,6 @@ export default function Page() {
 
   useEffect(() => {
     try {
-      const token = getCookie('token');
       const getPools = async () => {
         const result = await axios({
           method: 'GET',
@@ -92,6 +92,7 @@ export default function Page() {
       getPools();
     } catch (error) {
       if (error instanceof AxiosError) {
+        setToken(undefined);
         deleteCookie('token');
         router.replace('/');
       }

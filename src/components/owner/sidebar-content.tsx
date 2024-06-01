@@ -3,6 +3,7 @@ import { LuLogOut, LuBookMarked, LuUser2 } from 'react-icons/lu';
 import Link from 'next/link';
 import { ComponentProps, useEffect, useRef, useState } from 'react';
 import { SideBarContextGlobal } from '@/providers/siderbar';
+import { AuthContextGlobal } from '@/providers/auth';
 import { deleteCookie } from 'cookies-next';
 
 interface IconButtonProps extends ComponentProps<'aside'> {
@@ -11,6 +12,7 @@ interface IconButtonProps extends ComponentProps<'aside'> {
 
 export const SideBarContent = ({ visible, ...props }: IconButtonProps) => {
   const { showSideBar, setShowSideBar } = SideBarContextGlobal();
+  const { setToken } = AuthContextGlobal();
 
   const [sideBarTab, setSideBarTab] = useState('');
 
@@ -97,6 +99,7 @@ export const SideBarContent = ({ visible, ...props }: IconButtonProps) => {
             replace
             className="flex cursor-pointer border-b border-grey-200 pr-8 py-2 hover:bg-red-200 items-center text-red-600"
             onClick={() => {
+              setToken(undefined);
               deleteCookie('token');
             }}
           >

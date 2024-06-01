@@ -5,11 +5,11 @@ import { useRouter } from 'next/navigation';
 import { api } from '../lib/axios';
 import { useGoogleLogin } from '@react-oauth/google';
 import { createCookies } from '@/helpers/cookies';
-import { getCookie } from 'cookies-next';
+import { AuthContextGlobal } from '@/providers/auth';
 
 export default function Page() {
   const router = useRouter();
-  const token = getCookie('token');
+  const { token, setToken } = AuthContextGlobal();
 
   const getMe = async () => {
     if (token) {
@@ -33,6 +33,7 @@ export default function Page() {
           access_token: tokenResponse.access_token,
         });
         createCookies('token', response.data.token);
+        setToken(response.data.token);
         router.replace('/my-pools');
       } catch (error) {
         console.log(error);
