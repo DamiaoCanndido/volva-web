@@ -74,7 +74,7 @@ export const SideBarContent = ({ visible, ...props }: IconButtonProps) => {
             }}
           >
             <LuBookMarked size={30} />
-            <span className="px-1 text-sm">Bolões públicos</span>
+            <span className="px-1 text-sm">Entre nos bolões</span>
           </Link>
           <Link
             href="/create-pool"

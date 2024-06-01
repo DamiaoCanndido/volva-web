@@ -1,19 +1,19 @@
 'use client';
 import PoolCard from '@/components/owner/pool-card';
-import { Pool, PoolProps } from '@/entities/pool';
-import { AuthContextGlobal } from '@/providers/auth';
+import { Pool } from '@/entities/pool';
 import axios, { AxiosError } from 'axios';
-import { deleteCookie } from 'cookies-next';
+import { deleteCookie, getCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export default function Page() {
   const router = useRouter();
-  const { token } = AuthContextGlobal();
+
   const [pools, setPools] = useState<Pool[]>([]);
 
   useEffect(() => {
     try {
+      const token = getCookie('token');
       const getMyPools = async () => {
         const result = await axios({
           method: 'GET',
@@ -35,6 +35,7 @@ export default function Page() {
 
   return (
     <main className="flex flex-col space-y-2 items-center w-[600px] h-full p-2 border rounded-lg mx-auto max-lg:ml-auto border-green-600 mt-[72px]">
+      <h1>Meus bolões</h1>
       {pools.map((e) => {
         return (
           <PoolCard
