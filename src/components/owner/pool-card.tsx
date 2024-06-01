@@ -13,7 +13,7 @@ export default function PoolCard({ name, mode, owner, startTime }: Pool) {
     <div className="flex flex-col w-96 h-28 bg-green-200 rounded-lg cursor-pointer hover:bg-green-300">
       <div className="flex flex-1 justify-between mx-1">
         <p>{name}</p>
-        <p>{mode}</p>
+        <p>{mode === 'normal' ? 'Público' : 'Privado'}</p>
       </div>
       <div className="flex flex-1 justify-between mx-1">
         <p className="text-xs">{owner.name}</p>
