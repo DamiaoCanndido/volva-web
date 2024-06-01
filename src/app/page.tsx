@@ -1,15 +1,15 @@
 'use client';
 import { FcGoogle } from 'react-icons/fc';
-import { AuthContextGlobal } from '@/providers/auth';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { api } from '../lib/axios';
 import { useGoogleLogin } from '@react-oauth/google';
 import { createCookies } from '@/helpers/cookies';
+import { getCookie } from 'cookies-next';
 
 export default function Page() {
   const router = useRouter();
-  const { token, setToken } = AuthContextGlobal();
+  const token = getCookie('token');
 
   const getMe = async () => {
     if (token) {
@@ -18,7 +18,6 @@ export default function Page() {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (response.data.user.sub) {
-          setToken(response.data.user.avatarUrl);
           router.replace('/my-pools');
         }
       } catch (error) {
@@ -34,8 +33,7 @@ export default function Page() {
           access_token: tokenResponse.access_token,
         });
         createCookies('token', response.data.token);
-
-        router.replace('/create-pool');
+        router.replace('/my-pools');
       } catch (error) {
         console.log(error);
       }

@@ -24,7 +24,7 @@ import axios from 'axios';
 import { League } from '@/entities/league';
 import { useToast } from '@/components/ui/use-toast';
 import { ToastAction } from '@/components/ui/toast';
-import { AuthContextGlobal } from '@/providers/auth';
+import { getCookie } from 'cookies-next';
 
 const formSchema = z.object({
   name: z
@@ -42,7 +42,7 @@ const formSchema = z.object({
 });
 
 export default function Page() {
-  const { token } = AuthContextGlobal();
+  const token = getCookie('token');
   const [league, setLeague] = useState<League[]>([]);
   const { toast } = useToast();
 

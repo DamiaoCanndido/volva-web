@@ -18,13 +18,17 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { useToast } from '@/components/ui/use-toast';
+import { ToastAction } from '@/components/ui/toast';
 
 const formSchema = z.object({
   code: z.string().min(10, { message: 'Código errado.' }),
 });
 
 export default function Page() {
+  const token = getCookie('token');
   const router = useRouter();
+  const { toast } = useToast();
 
   const [pools, setPools] = useState<Pool[]>([]);
 
@@ -36,8 +40,40 @@ export default function Page() {
   });
 
   async function onSubmit({ code }: z.infer<typeof formSchema>) {
-    console.log(code);
-    form.resetField('code');
+    try {
+      await axios({
+        method: 'POST',
+        url: `${process.env.NEXT_PUBLIC_API_URL}/pools/custom`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        data: {
+          code,
+        },
+      });
+      toast({
+        title: 'Entrou no bolão com sucesso.',
+        style: {
+          backgroundColor: 'green',
+          borderColor: 'white',
+        },
+        variant: 'default',
+        action: (
+          <ToastAction color="white" altText="fechar">
+            Fechar
+          </ToastAction>
+        ),
+      });
+      form.resetField('code');
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        toast({
+          title: error.response?.data.error,
+          variant: 'destructive',
+          action: <ToastAction altText="fechar">fechar</ToastAction>,
+        });
+      }
+    }
   }
 
   useEffect(() => {
