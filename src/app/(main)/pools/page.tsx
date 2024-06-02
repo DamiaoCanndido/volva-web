@@ -21,6 +21,7 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import { ToastAction } from '@/components/ui/toast';
 import { AuthContextGlobal } from '@/providers/auth';
+import { api } from '@/lib/axios';
 
 const formSchema = z.object({
   code: z.string().min(10, { message: 'Código errado.' }),
@@ -80,13 +81,12 @@ export default function Page() {
   useEffect(() => {
     try {
       const getPools = async () => {
-        const result = await axios({
-          method: 'GET',
-          url: `${process.env.NEXT_PUBLIC_API_URL}/pools/normal`,
+        const result = await api.get('/pools/normal', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
+
         setPools(result.data.pools);
       };
       getPools();

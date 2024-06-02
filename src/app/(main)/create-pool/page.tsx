@@ -25,6 +25,7 @@ import { League } from '@/entities/league';
 import { useToast } from '@/components/ui/use-toast';
 import { ToastAction } from '@/components/ui/toast';
 import { AuthContextGlobal } from '@/providers/auth';
+import { api } from '@/lib/axios';
 
 const formSchema = z.object({
   name: z
@@ -76,18 +77,20 @@ export default function Page() {
     leagueId,
   }: z.infer<typeof formSchema>) {
     try {
-      const result = await axios({
-        method: 'POST',
-        url: `${String(process.env.NEXT_PUBLIC_API_URL)}/pools`,
-        headers: { Authorization: `Bearer ${token}` },
-        data: {
+      const result = await api.post(
+        '/pools',
+        {
           name,
           mode,
           scoring,
           nGames: Math.floor(nGames),
           leagueId,
         },
-      });
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
       toast({
         title:
           mode === 'custom'

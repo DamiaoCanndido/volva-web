@@ -6,6 +6,7 @@ import { deleteCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { AuthContextGlobal } from '@/providers/auth';
+import { api } from '@/lib/axios';
 
 export default function Page() {
   const { token, setToken } = AuthContextGlobal();
@@ -16,13 +17,12 @@ export default function Page() {
   useEffect(() => {
     try {
       const getMyPools = async () => {
-        const result = await axios({
-          method: 'GET',
-          url: `${process.env.NEXT_PUBLIC_API_URL}/pools/my`,
+        const result = await api.get('/pools/my', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
+
         setPools(result.data.pools);
       };
       getMyPools();

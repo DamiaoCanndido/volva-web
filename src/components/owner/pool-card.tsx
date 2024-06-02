@@ -14,7 +14,7 @@ export default function PoolCard(pool: Pool) {
   return (
     <div
       onClick={() => {
-        router.replace(`/my-pools/${pool.id}`);
+        router.push(`/my-pools/${pool.id}`);
       }}
       className="flex flex-col w-96 h-28 bg-green-200 rounded-lg cursor-pointer hover:bg-green-300"
     >
