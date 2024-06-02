@@ -8,26 +8,26 @@ enum Scoring {
 }
 
 export type Pool = {
-  id?: string;
+  id: string;
   name: string;
-  code?: string;
-  createdAt?: string;
+  code: string;
+  createdAt: string;
   startTime: string;
-  endTime?: string;
-  ownerId?: string;
+  endTime: string;
+  ownerId: string;
   mode: Mode;
-  scoring?: Scoring;
-  gamesClosed?: number;
-  nGames?: number;
-  games?: number[];
-  leagueId?: number | null;
-  poolFinished?: boolean;
-  winners?: string[];
+  scoring: Scoring;
+  gamesClosed: number;
+  nGames: number;
+  games: number[];
+  leagueId: number | null;
+  poolFinished: boolean;
+  winners: string[];
   owner: {
     name: string;
   };
 };
 
 export type PoolProps = {
-  pool: Pool[];
+  pool: Pool;
 };

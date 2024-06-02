@@ -125,16 +125,8 @@ export default function Page() {
           </Button>
         </form>
       </Form>
-      {pools.map((e) => {
-        return (
-          <PoolCard
-            key={e.id}
-            name={e.name}
-            startTime={e.startTime}
-            mode={e.mode}
-            owner={e.owner}
-          />
-        );
+      {pools.map((pool) => {
+        return <PoolCard key={pool.id} {...pool} />;
       })}
     </main>
   );

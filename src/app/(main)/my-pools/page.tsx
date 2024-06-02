@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { AuthContextGlobal } from '@/providers/auth';
 
 export default function Page() {
-  const { token } = AuthContextGlobal();
+  const { token, setToken } = AuthContextGlobal();
   const router = useRouter();
 
   const [pools, setPools] = useState<Pool[]>([]);
@@ -28,6 +28,7 @@ export default function Page() {
       getMyPools();
     } catch (error) {
       if (error instanceof AxiosError) {
+        setToken(undefined);
         deleteCookie('token');
         router.replace('/');
       }
@@ -37,16 +38,8 @@ export default function Page() {
   return (
     <main className="flex flex-col space-y-2 items-center w-[600px] h-full p-2 border rounded-lg mx-auto max-lg:ml-auto border-green-600 mt-[72px]">
       <h1 className="font-bold">Meus bolões</h1>
-      {pools.map((e) => {
-        return (
-          <PoolCard
-            key={e.id}
-            name={e.name}
-            startTime={e.startTime}
-            mode={e.mode}
-            owner={e.owner}
-          />
-        );
+      {pools.map((pool) => {
+        return <PoolCard key={pool.id} {...pool} />;
       })}
     </main>
   );
