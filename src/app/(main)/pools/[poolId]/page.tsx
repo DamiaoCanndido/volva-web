@@ -3,6 +3,7 @@ import { api } from '@/lib/axios';
 import { useEffect, useState } from 'react';
 import { AuthContextGlobal } from '@/providers/auth';
 import { Pool } from '@/entities/pool';
+import PoolDetailed from '@/components/owner/pool-detailed';
 
 export default function Page({ params }: { params: { poolId: string } }) {
   const { token } = AuthContextGlobal();
@@ -20,7 +21,7 @@ export default function Page({ params }: { params: { poolId: string } }) {
 
   return (
     <main className="flex flex-col space-y-2 items-center w-[600px] h-full p-2 border rounded-lg mx-auto max-lg:ml-auto border-green-600 mt-[72px]">
-      <h1>{pool?.name}</h1>
+      <PoolDetailed {...pool!} />
     </main>
   );
 }

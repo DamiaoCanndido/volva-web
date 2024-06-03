@@ -21,6 +21,7 @@ export type Pool = {
   nGames: number;
   games: number[];
   leagueId: number | null;
+  league: string | null;
   poolFinished: boolean;
   winners: string[];
   owner: {

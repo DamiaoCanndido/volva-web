@@ -34,7 +34,6 @@ const formSchema = z.object({
     .min(6, { message: 'Nome deve conter no mínimo 6 caracteres.' })
     .max(50, { message: 'O Nome não pode exceder 50 caracteres.' }),
   mode: z.enum(['normal', 'custom'], { message: 'Modo não compatível.' }),
-  scoring: z.optional(z.enum(['oneZero'])),
   nGames: z.coerce
     .number()
     .min(1, { message: 'Número muito pequeno.' })
@@ -63,7 +62,6 @@ export default function Page() {
     defaultValues: {
       name: '',
       mode: 'normal',
-      scoring: 'oneZero',
       nGames: 1,
       leagueId: undefined,
     },
@@ -72,7 +70,6 @@ export default function Page() {
   async function onSubmit({
     name,
     mode,
-    scoring,
     nGames,
     leagueId,
   }: z.infer<typeof formSchema>) {
@@ -82,7 +79,6 @@ export default function Page() {
         {
           name,
           mode,
-          scoring,
           nGames: Math.floor(nGames),
           leagueId,
         },
