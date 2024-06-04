@@ -4,7 +4,6 @@ import 'dayjs/locale/pt-br';
 import utc from 'dayjs/plugin/utc';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { useRouter, usePathname } from 'next/navigation';
-import { useEffect } from 'react';
 
 dayjs.extend(relativeTime);
 dayjs.locale('pt-br');
@@ -19,7 +18,7 @@ export default function PoolCard(pool: Pool) {
       onClick={() => {
         router.push(`${path}/${pool.id}`);
       }}
-      className="flex flex-col w-96 h-28 bg-green-200 rounded-lg cursor-pointer hover:bg-green-300"
+      className="flex flex-col w-96 h-36 bg-green-200 rounded-lg cursor-pointer hover:bg-green-300"
     >
       <div className="flex flex-1 justify-between mx-1">
         <p>{pool.name}</p>
@@ -30,6 +29,10 @@ export default function PoolCard(pool: Pool) {
         <p className="text-xs">
           {dayjs(pool.startTime).format('DD/MM/YY hh:mm A')}
         </p>
+      </div>
+      <div className="flex flex-1 justify-between mx-1">
+        <p>{pool.mode === 'normal' ? 'Público' : 'Privado'}</p>
+        <p>{pool.mode === 'custom' ? pool.code : ''}</p>
       </div>
     </div>
   );
