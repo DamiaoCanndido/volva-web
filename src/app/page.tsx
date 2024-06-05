@@ -6,10 +6,11 @@ import { api } from '../lib/axios';
 import { useGoogleLogin } from '@react-oauth/google';
 import { createCookies } from '@/helpers/cookies';
 import { AuthContextGlobal } from '@/providers/auth';
+import { User } from '@/entities/user';
 
 export default function Page() {
   const router = useRouter();
-  const { token, setToken } = AuthContextGlobal();
+  const { token, setToken, setUser } = AuthContextGlobal();
 
   const getMe = async () => {
     if (token) {
@@ -33,7 +34,14 @@ export default function Page() {
           access_token: tokenResponse.access_token,
         });
         createCookies('token', response.data.token);
+        const getUser = await api.get('/me', {
+          headers: { Authorization: `Bearer ${response.data.token}` },
+        });
+
+        const { name, avatarUrl }: User = getUser.data.user;
+        localStorage.setItem('user-data', JSON.stringify({ name, avatarUrl }));
         setToken(response.data.token);
+        setUser({ name, avatarUrl });
         router.replace('/my-pools');
       } catch (error) {
         console.log(error);

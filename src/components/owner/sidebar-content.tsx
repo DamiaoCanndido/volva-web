@@ -101,6 +101,7 @@ export const SideBarContent = ({ visible, ...props }: IconButtonProps) => {
             onClick={() => {
               setToken(undefined);
               deleteCookie('token');
+              localStorage.removeItem('user-data');
             }}
           >
             <LuLogOut size={30} />
