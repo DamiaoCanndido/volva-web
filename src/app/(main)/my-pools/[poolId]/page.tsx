@@ -5,52 +5,36 @@ import { useEffect, useState } from 'react';
 import { AuthContextGlobal } from '@/providers/auth';
 import { Pool } from '@/entities/pool';
 import { GameCard } from '@/components/owner/game-card';
-
-const match = {
-  id: 8,
-  fullTime: false,
-  startDate: '2024-05-28T15:00:00.000Z',
-  round: '1',
-  leagueId: 6,
-  homeId: 6,
-  awayId: 7,
-  homeScore: 2,
-  awayScore: 1,
-  homePenalty: null,
-  awayPenalty: null,
-  home: {
-    id: 6,
-    name: 'Atlético-MG',
-    code: 'CAM',
-    country: 'Brasil',
-    type: 'club',
-    logo: 'https://seeklogo.com/images/A/atletico-mg-logo-62B8B96E45-seeklogo.com.png',
-  },
-  away: {
-    id: 7,
-    name: 'Bahia',
-    code: 'BAH',
-    country: 'Brasil',
-    type: 'club',
-    logo: 'https://seeklogo.com/images/B/Bahia-logo-0BF5C9A502-seeklogo.com.png',
-  },
-  league: {
-    name: 'Brasileirão Série A',
-  },
-};
+import { Game } from '@/entities/game';
+import axios from 'axios';
 
 export default function Page({ params }: { params: { poolId: string } }) {
   const { token } = AuthContextGlobal();
-  const [pool, setPool] = useState<Pool>();
+  const [games, setGames] = useState<Game[]>([]);
 
   useEffect(() => {
     const getPool = async () => {
       const result = await api.get(`/pools/${params.poolId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setPool(result.data.pool);
+      return result.data.pool as Pool;
     };
-    getPool();
+    const getGames = async () => {
+      const poolRes = await getPool();
+      let ids = '';
+      poolRes?.games.map((e) => {
+        return (ids += String(`-${e}`));
+      });
+
+      const result = await axios({
+        method: 'GET',
+        url: `${String(
+          process.env.NEXT_PUBLIC_FOOT_API_URL
+        )}/match/multi/${ids.substring(1)}`,
+      });
+      setGames(result.data);
+    };
+    getGames();
   }, []);
 
   return (
@@ -65,7 +49,9 @@ export default function Page({ params }: { params: { poolId: string } }) {
           </TabsTrigger>
         </TabsList>
         <TabsContent value="games">
-          <GameCard {...match} />
+          {games.map((e) => {
+            return <GameCard key={e.id} {...e} />;
+          })}
         </TabsContent>
         <TabsContent value="rank">Tabela</TabsContent>
       </Tabs>
