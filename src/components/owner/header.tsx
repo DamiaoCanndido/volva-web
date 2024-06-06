@@ -1,7 +1,6 @@
 'use client';
 import { AuthContextGlobal } from '@/providers/auth';
 import { SideBarContextGlobal } from '@/providers/siderbar';
-import Image from 'next/image';
 import { useEffect } from 'react';
 import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';

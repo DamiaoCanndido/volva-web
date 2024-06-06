@@ -29,10 +29,12 @@ const AuthContext = createContext<ContextProps>({
 });
 
 export const AuthContextProvider = (props: childrenType) => {
+  let userData;
+  if (typeof window !== 'undefined') {
+    userData = JSON.parse(localStorage.getItem('user-data')!);
+  }
   const [token, setToken] = useState(getCookie('token'));
-  const [user, setUser] = useState<User | undefined>(
-    JSON.parse(localStorage.getItem('user-data')!)
-  );
+  const [user, setUser] = useState<User | undefined>(userData);
 
   return (
     <AuthContext.Provider value={{ token, setToken, user, setUser }}>

@@ -9,9 +9,9 @@ export default function Provider({
 }>) {
   return (
     <GoogleProvider>
-      <SideBarContextProvider>
-        <AuthContextProvider>{children}</AuthContextProvider>
-      </SideBarContextProvider>
+      <AuthContextProvider>
+        <SideBarContextProvider>{children}</SideBarContextProvider>
+      </AuthContextProvider>
     </GoogleProvider>
   );
 }

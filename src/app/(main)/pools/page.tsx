@@ -28,7 +28,7 @@ const formSchema = z.object({
 });
 
 export default function Page() {
-  const { token, setToken } = AuthContextGlobal();
+  const { token, setToken, setUser } = AuthContextGlobal();
   const router = useRouter();
   const { toast } = useToast();
 
@@ -94,6 +94,8 @@ export default function Page() {
       if (error instanceof AxiosError) {
         setToken(undefined);
         deleteCookie('token');
+        setUser(undefined);
+        localStorage.removeItem('user-data');
         router.replace('/');
       }
     }

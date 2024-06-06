@@ -9,7 +9,7 @@ import { AuthContextGlobal } from '@/providers/auth';
 import { api } from '@/lib/axios';
 
 export default function Page() {
-  const { token, setToken } = AuthContextGlobal();
+  const { token, setToken, setUser } = AuthContextGlobal();
   const router = useRouter();
 
   const [pools, setPools] = useState<Pool[]>([]);
@@ -30,6 +30,8 @@ export default function Page() {
       if (error instanceof AxiosError) {
         setToken(undefined);
         deleteCookie('token');
+        setUser(undefined);
+        localStorage.removeItem('user-data');
         router.replace('/');
       }
     }
