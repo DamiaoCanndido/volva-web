@@ -7,10 +7,13 @@ import { Pool } from '@/entities/pool';
 import { GameCard } from '@/components/owner/game-card';
 import { Game } from '@/entities/game';
 import axios from 'axios';
+import { Rank } from '@/entities/rank';
+import { RankCard } from '@/components/owner/rank-card';
 
 export default function Page({ params }: { params: { poolId: string } }) {
   const { token } = AuthContextGlobal();
   const [games, setGames] = useState<Game[]>([]);
+  const [ranks, setRanks] = useState<Rank[]>([]);
 
   useEffect(() => {
     const getPool = async () => {
@@ -19,22 +22,29 @@ export default function Page({ params }: { params: { poolId: string } }) {
       });
       return result.data.pool as Pool;
     };
-    const getGames = async () => {
+
+    const getGamesAndRank = async () => {
       const poolRes = await getPool();
+
       let ids = '';
       poolRes?.games.map((e) => {
         return (ids += String(`-${e}`));
       });
 
-      const result = await axios({
+      const gamesResult = await axios({
         method: 'GET',
         url: `${String(
           process.env.NEXT_PUBLIC_FOOT_API_URL
         )}/match/multi/${ids.substring(1)}`,
       });
-      setGames(result.data);
+      setGames(gamesResult.data);
+
+      const ranksResult = await api.get(`/pools/${poolRes.id}/rank`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setRanks(ranksResult.data.players);
     };
-    getGames();
+    getGamesAndRank();
   }, []);
 
   return (
@@ -53,7 +63,11 @@ export default function Page({ params }: { params: { poolId: string } }) {
             return <GameCard key={e.id} {...e} />;
           })}
         </TabsContent>
-        <TabsContent value="rank">Tabela</TabsContent>
+        <TabsContent value="rank">
+          {ranks.map((e, i) => {
+            return <RankCard key={e.user.id} rank={e} position={i} />;
+          })}
+        </TabsContent>
       </Tabs>
     </main>
   );
