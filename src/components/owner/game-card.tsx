@@ -2,10 +2,18 @@ import { Game } from '@/entities/game';
 import Image from 'next/image';
 import dayjs from 'dayjs';
 import 'dayjs/locale/pt-br';
+import { useRouter, usePathname } from 'next/navigation';
 
 export const GameCard = (game: Game) => {
+  const router = useRouter();
+  const path = usePathname();
   return (
-    <main className="flex flex-col h-36 w-full rounded-lg shadow-md cursor-pointer">
+    <main
+      onClick={() => {
+        router.push(`${path}/${game.id}`);
+      }}
+      className="flex flex-col h-36 w-full rounded-lg shadow-md cursor-pointer"
+    >
       <div className="flex flex-1 justify-center items-center border-b-[1px] border-green-200">
         {game.leagueId
           ? `Rodada ${game.round} - ${game.league.name}`

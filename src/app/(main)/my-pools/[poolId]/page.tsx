@@ -10,7 +10,11 @@ import axios from 'axios';
 import { Rank } from '@/entities/rank';
 import { RankCard } from '@/components/owner/rank-card';
 
-export default function Page({ params }: { params: { poolId: string } }) {
+interface Props {
+  params: { poolId: string };
+}
+
+export default function Page({ params }: Props) {
   const { token } = AuthContextGlobal();
   const [games, setGames] = useState<Game[]>([]);
   const [ranks, setRanks] = useState<Rank[]>([]);
